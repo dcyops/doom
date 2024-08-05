@@ -1,4 +1,4 @@
-# README.md
+# doom-emacs
 
 This repository contains my personal configuration files for [Doom Emacs](https://github.com/doomemacs/doomemacs). It's a clone of the `~/.config/doom` directory, allowing me to version control my settings and recover them if needed.
 
