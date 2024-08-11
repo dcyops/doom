@@ -10,7 +10,8 @@
 ;; (package! some-package)
 (package! slime-theme)
 (package! eldoc-box)
-(package! treemacs-evil)
+(package! hydra)
+(package! toxi-theme)
 
 
 ;; To install a package directly from a remote git repo, you must specify a

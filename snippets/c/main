@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: main-function
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# key: main
+# --
+int $>
+main() $>
+{$>
+    return 0;$>
+}$>

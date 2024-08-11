@@ -12,7 +12,6 @@
 '(markdown-header-face-6 :height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face))
 
 ;; Hide markdown syntax when editing
-
  (defvar nb/current-line '(0 . 0)
    "(start . end) of current line in current buffer")
  (make-variable-buffer-local 'nb/current-line)
@@ -44,7 +43,6 @@
    (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
 
 ;; Window behavior
-
 (setq markdown-xwidget-command nil
       markdown-xwidget-github-theme "light"
       markdown-xwidget-mermaid-theme "default"
@@ -53,3 +51,59 @@
 ;; Fix for xwidget blank white screen
 ;; https://www.reddit.com/r/emacs/comments/141jefa/emacs_with_xwidgets_on_wsl/
 ;;(setenv "WEBKIT_DISABLE_COMPOSITING_MODE" "1")
+
+;; Compiler options
+
+(defun my/compile-gcc ()
+  (interactive)
+  (let ((filename (file-name-sans-extension (buffer-file-name))))
+    (compile (format "gcc -o %s %s.c" filename filename))))
+
+(defun my/compile-gcc-debug ()
+  (interactive)
+  (let ((filename (file-name-sans-extension (buffer-file-name))))
+    (compile (format "gcc -g -o %s %s.c" filename filename))))
+
+(defun my/compile-gcc-asm ()
+  (interactive)
+  (let ((filename (file-name-sans-extension (buffer-file-name))))
+    (compile (format "gcc -O2 -o %s %s.c" filename filename))))
+
+(defun my/compile-gcc-32bit-intel ()
+  (interactive)
+  (let ((filename (file-name-sans-extension (buffer-file-name))))
+    (compile (format "gcc -m32 -masm=intel -o %s %s.c" filename filename))))
+
+(defun my/run-program ()
+  (interactive)
+  (let ((filename (file-name-sans-extension (buffer-file-name))))
+    (async-shell-command (format "./%s" filename))))
+
+(defhydra hydra-compile (:color blue :hint nil)
+  "
+^Compile Options^
+------------------
+_g_: GCC
+_d_: GCC (Debug)
+_o_: GCC (Optimized)
+_i_: GCC (32-bit Intel)
+_r_: Run Program
+_q_: Quit
+"
+  ("g" my/compile-gcc "GCC")
+  ("d" my/compile-gcc-debug "GCC (Debug)")
+  ("o" my/compile-gcc-optim "GCC (Optimized)")
+  ("i" my/compile-gcc-32bit-intel "GCC (32-bit Intel)")
+  ("r" my/run-program "Run Program")
+  ("q" nil "Quit" :color blue))
+
+(map! :leader
+      :desc "Compile Menu" "c m" #'hydra-compile/body)
+
+;; Dasnippet
+(after! yasnippet
+  (add-to-list 'yas-snippet-dirs "~/.config/doom/snippets")
+  (yas-reload-all))
+
+(map! :after cc-mode
+      :desc "Insert main function snippet" "C-c m" #'(lambda () (interactive) (yas-expand-snippet (yas-lookup-snippet "main" 'c-mode))))

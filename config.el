@@ -29,9 +29,9 @@
 
 ;;
 ;;;; Appearence
-(setq doom-theme 'slime
-      doom-font (font-spec :family "Iosevka" :weight 'light :size 18)
-      doom-variable-pitch-font (font-spec :family "Source Sans 3" :weight 'regular :size 19))
+(setq doom-theme 'doom-badger
+      doom-font (font-spec :family "Iosevka" :weight 'regular :size 22)
+      doom-variable-pitch-font (font-spec :family "Source Sans 3" :weight 'regular :size 22))
 
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
@@ -52,10 +52,19 @@
 ;;(setq split-height-threshold nil)
 ;;(setq split-width-threshold 160)
 
+(setq lsp-ui-sideline-enable nil)    ;; Disable sideline annotations
+
 ;;;; Binds
 (map! :n "C-,"    #'switch-to-buffer)
 (map! :n "C-."    #'find-file)
 (map! "C-c x"     #'execute-extended-command)
 (map! "C-c t"     #'vterm)
+
+;; Clipboard
+(setq select-active-regions nil)
+(setq select-enable-clipboard 't)
+(setq select-enable-primary nil)
+(setq interprogram-cut-function #'gui-select-text)
+
 
 (load-file (expand-file-name "custom.el" doom-user-dir))
