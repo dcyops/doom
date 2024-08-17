@@ -100,6 +100,7 @@ _q_: Quit
 (map! :leader
       :desc "Compile Menu" "c m" #'hydra-compile/body)
 
+<<<<<<< HEAD
 ;;
 ;;;; Dasnippet
 (after! yasnippet
@@ -124,3 +125,8 @@ _q_: Quit
 
 (map! :leader
       :desc "Format region" "m r =" #'+format/region)
+=======
+;; Dasnippet
+(yas-global-mode 1)
+(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
+>>>>>>> 0f4ac8e ()
