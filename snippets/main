@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: main
+# key: cmain
+# --
+int
+main()
+{
+    $@
+
+    return 0;
+}
