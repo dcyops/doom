@@ -30,8 +30,8 @@
 ;;
 ;;;; Appearence
 (setq doom-theme 'doom-badger
-      doom-font (font-spec :family "Iosevka" :weight 'regular :size 22)
-      doom-variable-pitch-font (font-spec :family "Source Sans 3" :weight 'regular :size 22))
+      doom-font (font-spec :family "Iosevka" :weight 'light :size 24)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'regular :size 22))
 
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
@@ -65,6 +65,5 @@
 (setq select-enable-clipboard 't)
 (setq select-enable-primary nil)
 (setq interprogram-cut-function #'gui-select-text)
-
 
 (load-file (expand-file-name "custom.el" doom-user-dir))

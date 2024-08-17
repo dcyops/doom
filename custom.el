@@ -100,10 +100,27 @@ _q_: Quit
 (map! :leader
       :desc "Compile Menu" "c m" #'hydra-compile/body)
 
-;; Dasnippet
+;;
+;;;; Dasnippet
 (after! yasnippet
   (add-to-list 'yas-snippet-dirs "~/.config/doom/snippets")
   (yas-reload-all))
 
-(map! :after cc-mode
-      :desc "Insert main function snippet" "C-c m" #'(lambda () (interactive) (yas-expand-snippet (yas-lookup-snippet "main" 'c-mode))))
+(map! :leader
+      :desc "Insert comment block"
+      "m c"
+      (lambda ()
+        (interactive)
+        (yas-expand-snippet (yas-lookup-snippet "comment-block" 'c-mode))))
+
+;; Formatting
+(after! cc-mode
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (setq-local +format-with 'clang-format))))
+
+(map! :leader
+      :desc "Format buffer" "m =" #'+format/buffer)
+
+(map! :leader
+      :desc "Format region" "m r =" #'+format/region)
