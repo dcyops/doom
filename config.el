@@ -29,15 +29,21 @@
 
 ;;
 ;;;; Appearence
+<<<<<<< HEAD
 (setq doom-theme 'doom-badger
       doom-font (font-spec :family "Iosevka" :weight 'light :size 24)
       doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'regular :size 24))
 
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+=======
+(setq doom-theme 'modus-operandi-tinted
+      doom-font (font-spec :family "Iosevka Comfy Motion" :weight 'Regular :size 25))
+  ;;    doom-variable-pitch-font (font-spec :family "Iosevka Comfy" :weight ' :size 22))
+>>>>>>> origin/main
 
 ;; Line numbers are pretty slow all around. The performance boost of disabling
 ;; them outweighs the utility of always keeping them on.
-(setq display-line-numbers-type nil)
+;;(setq display-line-numbers-type nil)
 
 ;; Prevents some cases of Emacs flickering.
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
@@ -58,7 +64,8 @@
 (map! :n "C-,"    #'switch-to-buffer)
 (map! :n "C-."    #'find-file)
 (map! "C-c x"     #'execute-extended-command)
-(map! "C-c t"     #'vterm)
+(map! "C-c t"     #'term)
+
 
 ;; Clipboard
 (setq select-active-regions nil)
