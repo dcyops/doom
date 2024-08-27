@@ -31,11 +31,7 @@
 ;;;; Appearence
 (setq doom-theme 'doom-badger
       doom-font (font-spec :family "Iosevka" :weight 'light :size 24)
-<<<<<<< HEAD
-      doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'regular :size 22))
-=======
       doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'regular :size 24))
->>>>>>> 0f4ac8e ()
 
 (setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
