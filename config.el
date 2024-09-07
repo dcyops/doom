@@ -1,7 +1,21 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;;
+;;;; Appearence
+
+(setq doom-theme 'modus-operandi-tinted
+      doom-font (font-spec :family "Iosevka Comfy Motion" :weight 'regular :size 22)
+      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Motion " :weight 'regular :size 24)
+      nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+
+;; Set transparancy
+(set-frame-parameter nil 'alpha-background 97)
+(add-to-list 'default-frame-alist '(alpha-background . 97))
+
+
+;;
 ;;;; Display
+
 (defun set-frame-size-according-to-resolution ()
   "Adjust frame size based on screen resolution."
   (interactive)
@@ -28,49 +42,61 @@
 (add-hook 'after-init-hook 'ct/frame-center)
 
 ;;
-;;;; Appearence
-<<<<<<< HEAD
-(setq doom-theme 'doom-badger
-      doom-font (font-spec :family "Iosevka" :weight 'light :size 24)
-      doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'regular :size 24))
+;;;; UI
 
-(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
-=======
-(setq doom-theme 'modus-operandi-tinted
-      doom-font (font-spec :family "Iosevka Comfy Motion" :weight 'Regular :size 25))
-  ;;    doom-variable-pitch-font (font-spec :family "Iosevka Comfy" :weight ' :size 22))
->>>>>>> origin/main
+;; Project specific tabs
+(defun my/projectile-filter-tabs ()
+  (interactive)
+  (let ((project-root (projectile-project-root)))
+    (dolist (tab (tab-bar-tabs))
+      (let ((file (alist-get 'name tab)))
+        (unless (and file (string-prefix-p project-root file))
+          (tab-bar-close-tab-by-name file))))))
+(add-hook 'projectile-after-switch-project-hook 'my/projectile-filter-tabs)
 
-;; Line numbers are pretty slow all around. The performance boost of disabling
-;; them outweighs the utility of always keeping them on.
-;;(setq display-line-numbers-type nil)
+;; Cycle through tabs
+(global-set-key (kbd "M-]") 'centaur-tabs-forward)
+(global-set-key (kbd "M-[") 'centaur-tabs-backward)
+
+;;
+;;;; Performance
 
 ;; Prevents some cases of Emacs flickering.
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(set-frame-parameter nil 'alpha-background 97)
-(add-to-list 'default-frame-alist '(alpha-background . 97))
-
 ;; Make vterm more snappy
 (setq vterm-timer-delay nil)
 
-;; Ensure windows split vertically by default
-;;(setq split-height-threshold nil)
-;;(setq split-width-threshold 160)
+;; Disable sideline annotations
+(setq lsp-ui-sideline-enable nil) 
 
-(setq lsp-ui-sideline-enable nil)    ;; Disable sideline annotations
+;; 
+;;;; Mappings
 
-;;;; Binds
 (map! :n "C-,"    #'switch-to-buffer)
 (map! :n "C-."    #'find-file)
 (map! "C-c x"     #'execute-extended-command)
 (map! "C-c t"     #'term)
 
+;; lsp
+(map! :leader :desc "Format buffer" "c ="   #'lsp-format-buffer)
+(map! :leader :desc "Format region" "c r"   #'lsp-format-region)
+(map! :leader :desc "Format region" "m r =" #'+format/region)
 
-;; Clipboard
+;; documentation
+(map! :leader :desc "Search devdocs" "C-l"  #'devdocs-lookup)
+
+
+;;
+;;;; Clipboard
+
 (setq select-active-regions nil)
 (setq select-enable-clipboard 't)
 (setq select-enable-primary nil)
 (setq interprogram-cut-function #'gui-select-text)
+
+;;
+;;; ENV
+(setenv "PATH" (concat (getenv "PATH") ":/home/$USER/.local/bin/npm"))
 
 (load-file (expand-file-name "custom.el" doom-user-dir))
