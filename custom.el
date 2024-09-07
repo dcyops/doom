@@ -51,8 +51,10 @@
 ;; Fix for xwidget blank white screen
 ;; https://www.reddit.com/r/emacs/comments/141jefa/emacs_with_xwidgets_on_wsl/
 ;;(setenv "WEBKIT_DISABLE_COMPOSITING_MODE" "1")
+;; needs to be set in ~/.zshrc
 
-;; Compiler options
+;;
+;;;; gcc
 
 (defun my/compile-gcc ()
   (interactive)
@@ -99,11 +101,16 @@ _q_: Quit
 
 (map! :leader
       :desc "Compile Menu" "c m" #'hydra-compile/body)
+
 ;;
-;;;; Dasnippet
+;;;; dasnippet
 (after! yasnippet
   (add-to-list 'yas-snippet-dirs "~/.config/doom/snippets")
   (yas-reload-all))
+
+;;(yas-global-mode 1)
+;;(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
+
 
 (map! :leader
       :desc "Insert comment block"
@@ -112,34 +119,31 @@ _q_: Quit
         (interactive)
         (yas-expand-snippet (yas-lookup-snippet "comment-block" 'c-mode))))
 
-;; Formatting
-(map! :leader
-      :desc "Format buffer" "c =" #'lsp-format-buffer)
 
-(map! :leader
-      :desc "Format region" "c r" #'lsp-format-region)
+(use-package! pyvenv
+  :config
+  ;; Automatically activates the virtual environment located at ~/.venv/dev
+  (setenv "WORKON_HOME" "~/.venv/")
+  (pyvenv-activate "~/.venv/dev"))
 
-<<<<<<< HEAD
-(map! :leader
-      :desc "Format region" "m r =" #'+format/region)
 
-;; Dasnippet
-(yas-global-mode 1)
-(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
-=======
-;; Dasnippet
-(yas-global-mode 1)
-(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(warning-suppress-log-types '((modus-themes) (modus-themes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
->>>>>>> origin/main
+;;
+;;;; Documentation
+
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
+
+(defun ansible-doc-at-point ()
+  "Run `ansible-doc` on the ansible module at point."
+  (interactive)
+  (let ((module (thing-at-point 'symbol)))
+    (if module
+        (ansible-doc module)
+      (message "No Ansible module found at point"))))
+
+(after! yaml-mode
+  ;; Unbind the default `K` lookup in yaml-mode
+  (map! :map yaml-mode-map
+        :n "K" nil) ; Unbind `K`
+  ;; Bind `K` to run ansible-doc on the module under the cursor
+  (map! :map yaml-mode-map
+        :n "K" #'ansible-doc-at-point))
