@@ -3,14 +3,14 @@
 ;;
 ;;;; Appearence
 
-(setq doom-theme 'modus-operandi-tinted
-      doom-font (font-spec :family "Iosevka Comfy Motion" :weight 'regular :size 22)
-      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Motion " :weight 'regular :size 24)
-      nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+(setq doom-theme 'doom-Iosvkem
+      doom-font (font-spec :family "iosevka fixed ss18" :weight 'light :size 22)
+      doom-variable-pitch-font (font-spec :family "iosevka fixed ss18" :weight 'italic :size 22))
+
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
 ;; Set transparancy
-(set-frame-parameter nil 'alpha-background 97)
-(add-to-list 'default-frame-alist '(alpha-background . 97))
+(add-to-list 'default-frame-alist '(alpha . 90))
 
 ;;
 ;;;; Display
@@ -67,7 +67,7 @@
 (setq vterm-timer-delay nil)
 
 ;; Disable sideline annotations
-(setq lsp-ui-sideline-enable nil) 
+;;(setq lsp-ui-sideline-enable nil) 
 
 ;; 
 ;;;; Mappings
@@ -91,10 +91,9 @@
 (map! :after evil :gni "C-d" #'replace-string)
 
 ;; multiple-cursors
-(after! evil-mc
-  (evil-define-key 'visual evil-mc-key-map (kbd ",") 'evil-mc-undo-all-cursors)
-  (evil-define-key 'visual evil-mc-key-map (kbd ",j") 'evil-mc-make-cursor-move-next-line)
-  (evil-define-key 'visual evil-mc-key-map (kbd ",k") 'evil-mc-make-cursor-move-prev-line))
+(map! "C-k"     #'evil-mc-make-cursor-move-prev-line)
+(map! "C-j"     #'evil-mc-make-cursor-move-next-line)
+(map! ","       #'evil-mc-undo-all-cursors)
 
 ;;
 ;;;; Clipboard
