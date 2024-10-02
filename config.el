@@ -3,14 +3,14 @@
 ;;
 ;;;; Appearence
 
-(setq doom-theme 'modus-operandi-tinted
-      doom-font (font-spec :family "Iosevka Comfy Motion" :weight 'regular :size 22)
-      doom-variable-pitch-font (font-spec :family "Iosevka Comfy Motion " :weight 'regular :size 24)
-      nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+(setq doom-theme 'doom-snazzy
+      doom-font (font-spec :family "iosevka fixed ss18" :weight 'light :size 22)
+      doom-variable-pitch-font (font-spec :family "iosevka fixed ss18" :weight 'semibold :size 22))
+
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 
 ;; Set transparancy
-(set-frame-parameter nil 'alpha-background 97)
-(add-to-list 'default-frame-alist '(alpha-background . 97))
+(add-to-list 'default-frame-alist '(alpha . 96))
 
 ;;
 ;;;; Display
@@ -54,8 +54,8 @@
 (add-hook 'projectile-after-switch-project-hook 'my/projectile-filter-tabs)
 
 ;; Cycle through tabs
-(global-set-key (kbd "M-]") 'centaur-tabs-forward)
-(global-set-key (kbd "M-[") 'centaur-tabs-backward)
+;;(global-set-key (kbd "M-]") 'centaur-tabs-forward)
+;;(global-set-key (kbd "M-[") 'centaur-tabs-backward)
 
 ;;
 ;;;; Performance
@@ -66,10 +66,11 @@
 ;; Make vterm more snappy
 (setq vterm-timer-delay nil)
 
-;; Disable sideline annotations
-(setq lsp-ui-sideline-enable nil) 
+;; (setq lsp-ui-sideline-enable t)
+;; (setq lsp-ui-sideline-show-hover t)
+;; (setq lsp-ui-sideline-show-diagnostics t)
 
-;; 
+;;
 ;;;; Mappings
 
 (map! :n "C-,"    #'switch-to-buffer)
@@ -77,7 +78,7 @@
 (map! "C-c x"     #'execute-extended-command)
 (map! "C-c t"     #'term)
 (map! "C-c b"     #'list-bookmarks)
-
+(define-key key-translation-map (kbd "Caps_Lock") (kbd "M"))
 ;; lsp
 (map! :leader :desc "Format buffer" "c ="   #'lsp-format-buffer)
 (map! :leader :desc "Format region" "c r"   #'lsp-format-region)
@@ -91,10 +92,9 @@
 (map! :after evil :gni "C-d" #'replace-string)
 
 ;; multiple-cursors
-(after! evil-mc
-  (evil-define-key 'visual evil-mc-key-map (kbd ",") 'evil-mc-undo-all-cursors)
-  (evil-define-key 'visual evil-mc-key-map (kbd ",j") 'evil-mc-make-cursor-move-next-line)
-  (evil-define-key 'visual evil-mc-key-map (kbd ",k") 'evil-mc-make-cursor-move-prev-line))
+(map! "C-k"     #'evil-mc-make-cursor-move-prev-line)
+(map! "C-j"     #'evil-mc-make-cursor-move-next-line)
+(map! ","       #'evil-mc-undo-all-cursors)
 
 ;;
 ;;;; Clipboard

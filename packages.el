@@ -10,13 +10,14 @@
 ;; (package! some-package)
 (package! eldoc-box)
 (package! hydra)
-(package! modus-themes)
 (package! projectile)
 (package! pyvenv)
 (package! ansible-doc)
 (package! devdocs)
+;;(package! ivy-hydra)
+(package! flycheck)
+(package! flycheck-popup-tip)
 (package! company-ansible)
-(package! ivy-hydra)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

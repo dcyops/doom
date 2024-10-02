@@ -150,4 +150,21 @@ _q_: Quit
             (when (string-equal (buffer-name) "devdocs")
               (visual-line-mode 1))))
 
-(setq tab-always-indent 'complete)
+;;(setq tab-always-indent 'complete)
+;;(yas-global-mode 1)
+;;(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
+
+
+(map! :leader
+      :desc "Insert comment block"
+      "m c"
+      (lambda ()
+        (interactive)
+        (yas-expand-snippet (yas-lookup-snippet "comment-block" 'c-mode))))
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (company-mode 1) ;; Enable company-mode only in yaml-mode
+            (set (make-local-variable 'company-backends) '(company-ansible)) ;; Use only company-ansible
+            (set (make-local-variable 'company-idle-delay) 0.2) ;; Set idle delay (e.g., 0.2 seconds)
+            (set (make-local-variable 'company-minimum-prefix-length) 2))) ;; Set minimum prefix length (e.g., 2 characters)
