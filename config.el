@@ -12,7 +12,6 @@
 (set-frame-parameter nil 'alpha-background 97)
 (add-to-list 'default-frame-alist '(alpha-background . 97))
 
-
 ;;
 ;;;; Display
 
@@ -77,6 +76,7 @@
 (map! :n "C-."    #'find-file)
 (map! "C-c x"     #'execute-extended-command)
 (map! "C-c t"     #'term)
+(map! "C-c b"     #'list-bookmarks)
 
 ;; lsp
 (map! :leader :desc "Format buffer" "c ="   #'lsp-format-buffer)
@@ -84,8 +84,17 @@
 (map! :leader :desc "Format region" "m r =" #'+format/region)
 
 ;; documentation
-(map! :leader :desc "Search devdocs" "C-l"  #'devdocs-lookup)
+(global-set-key (kbd "C-c d") 'devdocs-lookup)
 
+;; search & replace
+(global-unset-key (kbd "C-d"))
+(map! :after evil :gni "C-d" #'replace-string)
+
+;; multiple-cursors
+(after! evil-mc
+  (evil-define-key 'visual evil-mc-key-map (kbd ",") 'evil-mc-undo-all-cursors)
+  (evil-define-key 'visual evil-mc-key-map (kbd ",j") 'evil-mc-make-cursor-move-next-line)
+  (evil-define-key 'visual evil-mc-key-map (kbd ",k") 'evil-mc-make-cursor-move-prev-line))
 
 ;;
 ;;;; Clipboard

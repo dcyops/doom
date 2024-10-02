@@ -79,7 +79,7 @@
 (defun my/run-program ()
   (interactive)
   (let ((filename (file-name-sans-extension (buffer-file-name))))
-    (async-shell-command (format "./%s" filename))))
+    (async-shell-command (format "%s" filename))))
 
 (defhydra hydra-compile (:color blue :hint nil)
 "
@@ -111,19 +111,8 @@ _q_: Quit
 ;;;; dasnippet
 (after! yasnippet
   (add-to-list 'yas-snippet-dirs "~/.config/doom/snippets")
+  (setq yas-indent-line 'auto)
   (yas-reload-all))
-
-;;(yas-global-mode 1)
-;;(setq yas-snippets-dirs '("$HOME/.config/doom/snippets"))
-
-
-(map! :leader
-      :desc "Insert comment block"
-      "m c"
-      (lambda ()
-        (interactive)
-        (yas-expand-snippet (yas-lookup-snippet "comment-block" 'c-mode))))
-
 
 (use-package! pyvenv
   :config
@@ -133,7 +122,6 @@ _q_: Quit
 
 ;;
 ;;;; Documentation
-
 
 ;; Ansible
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
@@ -154,5 +142,12 @@ _q_: Quit
         :n "K" #'ansible-doc-at-point))
 
 ;; C/C++
+;;(add-hook 'c-mode-hook
+ ;;         (lambda () (setq-local devdocs-current-docs '("c"))))
 (add-hook 'c-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("c"))))
+          (lambda ()
+            (setq-local devdocs-current-docs '("c"))
+            (when (string-equal (buffer-name) "devdocs")
+              (visual-line-mode 1))))
+
+(setq tab-always-indent 'complete)
