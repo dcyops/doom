@@ -66,11 +66,6 @@
 ;; Make vterm more snappy
 (setq vterm-timer-delay nil)
 
-;; (setq lsp-ui-sideline-enable t)
-;; (setq lsp-ui-sideline-show-hover t)
-;; (setq lsp-ui-sideline-show-diagnostics t)
-
-;;
 ;;;; Mappings
 
 (map! :n "C-,"    #'switch-to-buffer)
